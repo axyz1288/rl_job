@@ -29,6 +29,13 @@ spec:
           runAsUser: 1000
         ports:
         - containerPort: 11311
+        resources:
+          requests:
+            memory: "10M"
+            cpu: "0.1"
+          limits:
+            memory: "100M"
+            cpu: "0.5"
         volumeMounts:
         - name: x11
           mountPath: /tmp/.X11-unix
@@ -46,6 +53,13 @@ spec:
         ports:
         - containerPort: 11311
         - containerPort: 6006
+        resources:
+          requests:
+            memory: "4G"
+            cpu: "1"
+          limits:
+            memory: "8G"
+            cpu: "2"
         volumeMounts:
         - name: pytorch
           mountPath: /home/aiRobots
