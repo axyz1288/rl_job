@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ros
+  namespace: rl
+data:
+  ROS_MASTER_URI: http://ros:11311

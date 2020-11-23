@@ -1,0 +1,62 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: rl
+  namespace: rl
+spec:
+  parallelism: 1
+  completions: 1
+  backoffLimit: 6
+  template:
+    metadata:
+      name: rl
+      labels:
+        app: rl
+      namespace: rl
+    spec:
+      restartPolicy: "OnFailure"
+      containers:
+      - name: ros
+        image: axyz1288/aidocker:ros
+        securityContext:
+          runAsUser: 1000
+        ports:
+        - containerPort: 11311
+
+      - name: pybullet
+        image: axyz1288/aidocker:pybullet
+        securityContext:
+          runAsUser: 1000
+        ports:
+        - containerPort: 11311
+        volumeMounts:
+        - name: x11
+          mountPath: /tmp/.X11-unix
+        - name: pybullet
+          mountPath: /home/aiRobots
+        envFrom:
+        - configMapRef:
+            name: gui
+        args: ["/bin/python3", "./env/AGV.py", "-E", "AGV", "-A", "maddqn", "-m", "8"," 8", "-s", "1", "-e", "3", "-a", "6"]
+
+      - name: pytorch
+        image: axyz1288/aidocker:pytorch
+        securityContext:
+          runAsUser: 1000
+        ports:
+        - containerPort: 11311
+        volumeMounts:
+        - name: pytorch
+          mountPath: /home/aiRobots
+        args: ["/bin/python3", "./MARL/main.py", "-E", "AGV", "-A", "maddqn"]
+
+      volumes:
+      - name: x11
+        persistentVolumeClaim:
+          claimName: x11
+      - name: pybullet
+        persistentVolumeClaim:
+          claimName: pybullet
+      - name: pytorch
+        persistentVolumeClaim:
+          claimName: pytorch

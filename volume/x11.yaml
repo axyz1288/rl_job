@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: x11
+spec:
+  storageClassName: local-storage
+  local:
+    path: /tmp/.X11-unix
+  capacity:
+    storage: 1Mi
+  volumeMode: Filesystem
+  accessModes: [ReadWriteMany]
+  persistentVolumeReclaimPolicy: Retain
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions: 
+        - key: beta.kubernetes.io/os
+          operator: In
+          values: [linux]
+  
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: x11
+  namespace: rl
+spec:
+  storageClassName: local-storage
+  accessModes: [ReadWriteMany]
+  resources:
+    requests:
+      storage: 1Mi
