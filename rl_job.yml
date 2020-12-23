@@ -44,7 +44,7 @@ spec:
         envFrom:
         - configMapRef:
             name: gui
-        args: ["/bin/python3", "./env/AGV.py", "-E", "AGV", "-A", "maddqn", "-m", "8"," 8", "-s", "1", "-e", "3", "-a", "6"]
+        args: ["/bin/python3", "./env/AGV.py", "-E", "AGV", "-A", "maddqn", "-m", "./env/AGV.npy"]
 
       - name: pytorch
         image: axyz1288/aidocker:pytorch
