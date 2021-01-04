@@ -59,11 +59,11 @@ spec:
             cpu: "1"
           limits:
             memory: "8G"
-            cpu: "2"
+            cpu: "4"
         volumeMounts:
         - name: pytorch
           mountPath: /home/aiRobots
-        args: ["/bin/python3", "./MARL/main.py", "-E", "AGV", "-A", "maddqn"]
+        args: ["/bin/python3", "./MARL/main.py", "-E", "AGV", "-A", "maddqn", "--gpu", "cuda:0", "--dir", "./MARL"]
 
       volumes:
       - name: x11
