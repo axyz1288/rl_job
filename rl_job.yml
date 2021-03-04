@@ -1,18 +1,14 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: maddqn
-  namespace: rl
+  name: gacomm
 spec:
   parallelism: 1
   completions: 1
   backoffLimit: 6
   template:
     metadata:
-      name: maddqn
-      labels:
-        app: rl
-      namespace: rl
+      name: gacomm
     spec:
       restartPolicy: "OnFailure"
       containers:
@@ -44,7 +40,7 @@ spec:
         envFrom:
         - configMapRef:
             name: gui
-        args: ["/bin/python3", "./env/AGV.py", "-E", "AGV", "-A", "maddqn", "-m", "./env/AGV.npy"]
+        args: ["/bin/python3", "./env/AGV.py", "-E=AGV", "-A=gacomm", "-m=./env/AGV.npy"]
 
       - name: pytorch
         image: axyz1288/aidocker:pytorch
@@ -63,7 +59,7 @@ spec:
         volumeMounts:
         - name: pytorch
           mountPath: /home/aiRobots
-        args: ["/bin/python3", "./MARL/main.py", "-E", "AGV", "-A", "maddqn", "--gpu", "cuda:0", "--dir", "./MARL"]
+        args: ["/bin/python3", "./MARL/main.py", "-E=AGV", "-A=gacomm", "--gpu=cuda:1", "--dir=./MARL"]
 
       volumes:
       - name: x11
