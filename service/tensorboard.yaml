@@ -2,7 +2,6 @@ kind: Service
 apiVersion: v1
 metadata:
   name: tensorboard
-  namespace: rl
 spec:
   type: NodePort
   selector:
