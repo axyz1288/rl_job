@@ -1,14 +1,14 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: gacomm
+  name: rl-training
 spec:
   parallelism: 1
   completions: 1
   backoffLimit: 6
   template:
     metadata:
-      name: gacomm
+      name: rl-training
     spec:
       restartPolicy: "OnFailure"
       containers:
@@ -40,7 +40,7 @@ spec:
         envFrom:
         - configMapRef:
             name: gui
-        args: ["/bin/python3", "./env/AGV.py", "-E=AGV", "-A=gacomm", "-m=./env/AGV.npy"]
+        args: ["/bin/python3", "./AGV.py", "-E=agv", "-A=gacomm", "-m=./AGV.npy"]
 
       - name: pytorch
         image: axyz1288/aidocker:pytorch
@@ -59,7 +59,7 @@ spec:
         volumeMounts:
         - name: pytorch
           mountPath: /home/aiRobots
-        args: ["/bin/python3", "./MARL/main.py", "-E=AGV", "-A=gacomm", "--gpu=cuda:1", "--dir=./MARL"]
+        args: ["/bin/python3", "./main.py", "-E=agv", "-A=gacomm", "--gpu=cuda:1"]
 
       volumes:
       - name: x11
