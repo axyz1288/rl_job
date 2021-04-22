@@ -4,7 +4,8 @@ metadata:
   name: pybullet
 spec:
   storageClassName: local-storage
-  local:
+  nfs:
+    server: 192.168.50.59
     path: /home/airobots/MARL/env
   capacity:
     storage: 10Mi
@@ -15,9 +16,9 @@ spec:
     required:
       nodeSelectorTerms:
       - matchExpressions: 
-        - key: kubernetes.io/hostname
+        - key: kubernetes.io/arch
           operator: In
-          values: [192.168.50.59]
+          values: ["amd64"]
   
 ---
 apiVersion: v1
@@ -38,7 +39,8 @@ metadata:
   name: pytorch
 spec:
   storageClassName: local-storage
-  local:
+  nfs:
+    server: 192.168.50.59
     path: /home/airobots/MARL
   capacity:
     storage: 10Gi
@@ -49,9 +51,9 @@ spec:
     required:
       nodeSelectorTerms:
       - matchExpressions: 
-        - key: kubernetes.io/hostname
+        - key: kubernetes.io/arch
           operator: In
-          values: [192.168.50.59]
+          values: ["amd64"]
   
 ---
 apiVersion: v1

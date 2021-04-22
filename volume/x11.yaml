@@ -15,9 +15,9 @@ spec:
     required:
       nodeSelectorTerms:
       - matchExpressions: 
-        - key: beta.kubernetes.io/os
+        - key: kubernetes.io/arch
           operator: In
-          values: [linux]
+          values: ["amd64"]
   
 ---
 apiVersion: v1
